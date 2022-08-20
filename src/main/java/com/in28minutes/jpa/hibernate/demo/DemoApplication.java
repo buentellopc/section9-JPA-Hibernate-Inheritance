@@ -1,7 +1,7 @@
 package com.in28minutes.jpa.hibernate.demo;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Review;
-import com.in28minutes.jpa.hibernate.demo.entity.Student;
+import com.in28minutes.jpa.hibernate.demo.entity.*;
+import com.in28minutes.jpa.hibernate.demo.repository.EmployeeRepository;
 import com.in28minutes.jpa.hibernate.demo.repository.StudentRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,9 +10,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.in28minutes.jpa.hibernate.demo.entity.Course;
 import com.in28minutes.jpa.hibernate.demo.repository.CourseRepository;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +25,8 @@ public class DemoApplication implements CommandLineRunner {
     private CourseRepository courseRepository;
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(DemoApplication.class, args);
@@ -43,7 +45,14 @@ public class DemoApplication implements CommandLineRunner {
 //        courseRepository.addReviewsForCourse(10003L, reviewList);
 //        courseRepository.getReviews();
 
-        studentRepository.insertStudentAndCourse(new Student("Cristiano Ronaldo"), new Course("Futbol 1"));
+//        studentRepository.insertStudentAndCourse(new Student("Cristiano Ronaldo"), new Course("Futbol 1"));
+
+
+        employeeRepository.insert(new FullTimeEmployee("Lucas", new BigDecimal(35000)));
+        employeeRepository.insert(new PartTimeEmployee("Henrique", new BigDecimal(3500)));
+
+        List<Employee> employees = employeeRepository.retrieveAllEmployees();
+        logger.info("List of employees: ", employees);
 
     }
 }
